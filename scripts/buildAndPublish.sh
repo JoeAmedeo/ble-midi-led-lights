@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-Version=${GITHUB_REF##*/}
+Version=${GITHUB_REF#refs/*/}
 
 docker login -u ${Username} -p ${Password}
 docker build -t ${Username}/${Image}:${Version} -t ${Username}/${Image}:latest .

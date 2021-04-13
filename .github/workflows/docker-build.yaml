@@ -1,0 +1,21 @@
+name: Docker Build and Publish
+
+
+on:
+  push:
+   
+defaults:
+  run:
+    shell: 'bash'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and Publish
+      env:
+        Password: ${{ secrets.DOCKER_PASSWORD }}
+        Username: 'joeamedeo'
+        Image: 'ble-midi-drums'
+      run: "TODO: make a script"

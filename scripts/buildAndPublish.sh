@@ -41,9 +41,11 @@ case $i in
 esac
 done
 
-variable_exists user "user"
-variable_exists password "password"
-variable_exists image "image"
+echo $user
+
+variable_exists $user "user"
+variable_exists $password "password"
+variable_exists $image "image"
 
 if ! [ -v version] && [ -v publish ]
 then

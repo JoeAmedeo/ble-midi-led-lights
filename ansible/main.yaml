@@ -1,0 +1,11 @@
+---
+- hosts: all
+
+  tasks:
+
+    # NOTE: Don't run this on a pi that 
+    - name: Kill all running containers
+      command: docker kill $(docker ps -q)
+
+    - name: Run updated Docker image
+      command: docker run joeamedeo/ble-midi-drums:{{ version }}

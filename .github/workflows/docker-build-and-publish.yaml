@@ -17,7 +17,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build and Publish
       env:
-        Password: ${{ secrets.DOCKER_PASSWORD }}
-        Username: 'joeamedeo'
-        Image: 'ble-midi-drums'
-      run: "TODO: make a script"
+        PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        USERNAME: 'joeamedeo'
+        IMAGE: 'ble-midi-drums'
+        VERSION: ${GITHUB_REF#refs/*/}
+        STAGE: 'Builder'
+      run: ../scripts/buildAndPublish.sh -u=$USERNAME, -p=$PASSWORD -i=$IMAGE -v=$VERSION -t=$STAGE

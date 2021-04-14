@@ -15,7 +15,7 @@ case $i in
     version="${i#*=}"
     shift
     ;;
-    -p|--publish
+    --publish
     publish=true
     shift
     ;;
@@ -29,6 +29,10 @@ case $i in
     ;;
     -i=*|--image=*
     image="${i#*=}"
+    shift
+    ;;
+    -t=*|--target=*
+    target="${i#*=}"
     shift
     ;;
     *)
@@ -47,10 +51,16 @@ then
     exit 1
 fi
 
-docker login -u ${Username} -p ${Password}
-docker build -t ${Username}/${Image}:${version} -t ${Username}/${Image}:latest .
+buildVersion=$(! [ -v $version ] && echo "-t $username/$image:$version" || echo "")
+
+buildVerionLatest="-t $username/$image:latest"
+
+buildTarget=$(! [ -v $target ] && echo "--target $target" || echo "")
+
+docker login -u $user -p $password
+docker build $buildTarget $buildVersion $buildVersionLatest .
 if [ $publish = true ]
 then
-    docker push ${Username}/${Image}:${version}
-    docker push ${Username}/${Image}:latest
+    docker push $username/$image:$version
+    docker push $username/$image:latest
 fi

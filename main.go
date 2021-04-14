@@ -1,12 +1,8 @@
-package main
+package drums
 
 import (
 	"tinygo.org/x/bluetooth"
 )
-
-var macAddress = "TODO"
-
-var adapter = bluetooth.DefaultAdapter
 
 func must(action string, err error) {
 	if err != nil {
@@ -15,6 +11,10 @@ func must(action string, err error) {
 }
 
 func main() {
+
+	//var macAddress = "TODO"
+
+	var adapter = bluetooth.DefaultAdapter
 	// Enable BLE interface.
 	must("enable BLE stack", adapter.Enable())
 

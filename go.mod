@@ -1,4 +1,4 @@
-module main
+module drums
 
 go 1.15
 

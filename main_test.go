@@ -5,21 +5,37 @@ import (
 	"testing"
 )
 
-func TestMustPanic(t *testing.T) {
-	defer func() {
-		if r := recover(); r == nil {
-			t.Errorf("must did not panic when given an error")
-		}
-	}()
-	err := fmt.Errorf("mock error")
-	must("test action", err)
+type MustTest struct {
+	action      string
+	err         error
+	shouldPanic bool
 }
 
-func TestMustNotPanic(t *testing.T) {
-	defer func() {
-		if r := recover(); r != nil {
-			t.Errorf("must panicked when no error was provided")
-		}
-	}()
-	must("test action", nil)
+func TestMust(t *testing.T) {
+
+	mustTests := []MustTest{
+		{
+			action:      "test action",
+			err:         nil,
+			shouldPanic: false,
+		},
+		{
+			action:      "test action",
+			err:         fmt.Errorf("mock error"),
+			shouldPanic: true,
+		},
+	}
+
+	for _, column := range mustTests {
+		defer func(shouldPanic bool) {
+			r := recover()
+			if r == nil && shouldPanic {
+				t.Errorf("must did not panic when given an error")
+			}
+			if r != nil && !shouldPanic {
+				t.Errorf("must panicked when given nil")
+			}
+		}(column.shouldPanic)
+		must(column.action, column.err)
+	}
 }

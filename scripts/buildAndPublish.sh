@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 
-variable_exists () {
-    if ! [ -v $0 ]
-    then
-        echo "Missing variable: " + $1
-        exit 1
-    fi
-}
-
 for i in "$@"
 do
 case $i in
@@ -41,13 +33,27 @@ case $i in
 esac
 done
 
-echo $user
+# TODO: very repetative, fix later
+if ! [ -v user ]
+then
+    echo "Missing variable: " + $1
+    exit 1
+fi
 
-variable_exists $user "user"
-variable_exists $password "password"
-variable_exists $image "image"
+if ! [ -v password ]
+then
+    echo "Missing variable: " + $1
+    exit 1
+fi
 
-if ! [ -v version] && [ -v publish ]
+if ! [ -v image ]
+then
+    echo "Missing variable: " + $1
+    exit 1
+fi
+# TODO: end
+
+if ! [ -v version ] && [ -v publish ]
 then
     echo "A version number must be specified in order to publish a package"
     exit 1

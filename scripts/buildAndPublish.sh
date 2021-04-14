@@ -11,27 +11,27 @@ variable_exists () {
 for i in "$@"
 do
 case $i in
-    -v=*|--version=*
+    -v=*|--version=*)
     version="${i#*=}"
     shift
     ;;
-    --publish
+    --publish)
     publish=true
     shift
     ;;
-    -u=*|--user=*
+    -u=*|--user=*)
     user="${i#*=}"
     shift
     ;;
-    -p=*|--password=*
+    -p=*|--password=*)
     password="${i#*=}"
     shift
     ;;
-    -i=*|--image=*
+    -i=*|--image=*)
     image="${i#*=}"
     shift
     ;;
-    -t=*|--target=*
+    -t=*|--target=*)
     target="${i#*=}"
     shift
     ;;

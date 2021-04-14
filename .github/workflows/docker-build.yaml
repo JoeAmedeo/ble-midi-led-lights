@@ -25,4 +25,4 @@ jobs:
         IMAGE: 'ble-midi-drums'
         VERSION: ${GITHUB_REF#refs/*/}
         STAGE: 'Builder'
-      run: ./scripts/buildAndPublish.sh -u=$USERNAME, -p=$PASSWORD -i=$IMAGE -v=$VERSION -t=$STAGE
+      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }}, -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -v=${{ env.VERSION }} -t=${{ env.STAGE }}

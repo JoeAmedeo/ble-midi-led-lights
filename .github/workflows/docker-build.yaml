@@ -23,4 +23,4 @@ jobs:
         Password: ${{ secrets.DOCKER_PASSWORD }}
         Username: 'joeamedeo'
         Image: 'ble-midi-drums'
-      run: "TODO: make a script"
+      run: ../scripts/buildAndPublish.sh -u=$USERNAME, -p=$PASSWORD -i=$IMAGE -v=$VERSION -t=$STAGE

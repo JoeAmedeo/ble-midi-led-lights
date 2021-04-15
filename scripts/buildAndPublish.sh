@@ -59,9 +59,9 @@ then
     exit 1
 fi
 
-buildVersion=$(! [ -v $version ] && echo "-t $username/$image:$version" || echo "")
+buildVersion=$(! [ -v $version ] && echo "-t $user/$image:$version" || echo "")
 
-buildVerionLatest="-t $username/$image:latest"
+buildVerionLatest="-t $user/$image:latest"
 
 buildTarget=$(! [ -v $target ] && echo "--target $target" || echo "")
 
@@ -69,6 +69,6 @@ docker login -u $user -p $password
 docker build $buildTarget $buildVersion $buildVersionLatest .
 if [ $publish = true ]
 then
-    docker push $username/$image:$version
-    docker push $username/$image:latest
+    docker push $user/$image:$version
+    docker push $user/$image:latest
 fi

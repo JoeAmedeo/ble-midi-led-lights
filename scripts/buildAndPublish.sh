@@ -61,7 +61,7 @@ fi
 
 buildVersion=$(! [ -v $version ] && echo "-t $user/$image:$version" || echo "")
 
-buildVerionLatest="-t $user/$image:latest"
+buildVerionLatest=$( echo "-t $user/$image:latest" )
 
 buildTarget=$(! [ -v $target ] && echo "--target $target" || echo "")
 
@@ -70,5 +70,5 @@ docker build $buildTarget $buildVersion $buildVersionLatest .
 if [ $publish = true ]
 then
     docker push $user/$image:$version
-    # docker push $user/$image:latest
+    docker push $user/$image:latest
 fi

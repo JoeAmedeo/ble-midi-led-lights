@@ -23,4 +23,4 @@ jobs:
         USERNAME: 'joeamedeo'
         IMAGE: 'ble-midi-drums'
         STAGE: 'Runner'
-      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }}, -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -v=${{ env.RELEASE_VERSION }} -t=${{ env.STAGE }} --publish
+      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }} -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -v=${{ env.RELEASE_VERSION }} -t=${{ env.STAGE }} --publish

@@ -15,10 +15,12 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+    - name: Set release version
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Build and Publish
       env:
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         USERNAME: 'joeamedeo'
         IMAGE: 'ble-midi-drums'
         STAGE: 'Runner'
-      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }}, -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -v=${GITHUB_REF#refs/*/} -t=${{ env.Stage }} --publish
+      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }}, -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -v=${{ env.RELEASE_VERSION }} -t=${{ env.Stage }} --publish

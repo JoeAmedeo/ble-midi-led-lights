@@ -70,5 +70,5 @@ docker build $buildTarget $buildVersion $buildVersionLatest .
 if [ $publish = true ]
 then
     docker push $user/$image:$version
-    docker push $user/$image:latest
+    # docker push $user/$image:latest
 fi

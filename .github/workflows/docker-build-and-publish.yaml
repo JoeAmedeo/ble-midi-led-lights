@@ -22,5 +22,5 @@ jobs:
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         USERNAME: 'joeamedeo'
         IMAGE: 'ble-midi-drums'
-        STAGE: 'Runner'
+        STAGE: 'runner'
       run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }} -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -v=${{ env.RELEASE_VERSION }} -t=${{ env.STAGE }} --publish

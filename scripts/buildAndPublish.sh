@@ -61,7 +61,7 @@ fi
 
 buildVersion=$(! [ -v $version ] && echo "-t $user/$image:$version" || echo "")
 
-buildVerionLatest=$( echo "-t $user/$image:latest" )
+buildVersionLatest=$( echo "-t $user/$image:latest" )
 
 buildTarget=$(! [ -v $target ] && echo "--target $target" || echo "")
 

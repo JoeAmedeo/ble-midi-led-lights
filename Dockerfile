@@ -1,5 +1,7 @@
 FROM arm64v8/golang:1.16 AS builder
 
+RUN apt-get update && apt-get install -y gcc-aarch64-linux-gnu
+
 WORKDIR /app
 
 COPY . .

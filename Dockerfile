@@ -1,4 +1,4 @@
-FROM arm64v8/golang:1.16.3 AS builder
+FROM arm64v8/golang:1.16 AS builder
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN go build
 
 RUN go test
 
-FROM arm64v8/golang:1.16.3 AS runner
+FROM arm64v8/golang:1.16 AS runner
 
 WORKDIR /app
 

@@ -65,7 +65,7 @@ buildVerionLatest=$( echo "-t $user/$image:latest" )
 
 buildTarget=$(! [ -v $target ] && echo "--target $target" || echo "")
 
-docker login -u $user -p $password
+docker login -u $user -p $PASSWORD
 docker build $buildTarget $buildVersion $buildVersionLatest .
 if [ $publish = true ]
 then

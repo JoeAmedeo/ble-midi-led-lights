@@ -18,6 +18,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+    - name: Enable experimental docker features
+      run: |
+        sudo rm -rf /etc/docker/daemon.json
+        echo '{"experimental": true}' | sudo tee -a /etc/docker/daemon.json
     - name: Build and Publish
       env:
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

@@ -12,6 +12,6 @@ FROM golang:1.16.3 AS Runner
 
 WORKDIR /app
 
-COPY --from=Builder main main
+COPY --from=Builder /app/main .
 
 CMD ["./main"]

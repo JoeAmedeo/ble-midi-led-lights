@@ -21,4 +21,4 @@ jobs:
         USERNAME: 'joeamedeo'
         IMAGE: 'ble-midi-drums'
         STAGE: 'Runner'
-      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }}, -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -v=${{ env.VERSION }} -t=${GITHUB_REF#refs/*/} --publish
+      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }}, -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -v=${GITHUB_REF#refs/*/} -t=${{ env.Stage }} --publish

@@ -1,4 +1,4 @@
-FROM golang:1.16.3 AS Builder
+FROM golang:1.16.3 AS builder
 
 WORKDIR /app
 
@@ -8,10 +8,10 @@ RUN go build
 
 RUN go test
 
-FROM golang:1.16.3 AS Runner
+FROM golang:1.16.3 AS runner
 
 WORKDIR /app
 
-COPY --from=Builder /app/main .
+COPY --from=builder /app/main .
 
 CMD ["./main"]

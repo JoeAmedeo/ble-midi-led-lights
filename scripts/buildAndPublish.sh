@@ -66,7 +66,7 @@ buildVersionLatest=$( echo "-t $user/$image:latest" )
 buildTarget=$(! [ -v $target ] && echo "--target $target" || echo "")
 
 docker login -u $user -p $PASSWORD
-docker build $buildTarget $buildVersion $buildVersionLatest .
+docker build --platform arm64v8 $buildTarget $buildVersion $buildVersionLatest .
 if [ $publish = true ]
 then
     docker push $user/$image:$version

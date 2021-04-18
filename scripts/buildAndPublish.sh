@@ -67,6 +67,9 @@ buildTarget=$(! [ -v $target ] && echo "--target $target" || echo "")
 
 push=$(["$publish" = true] && echo "--push" || echo "")
 
+echo $publish
+echo $push
+
 docker login -u $user -p $PASSWORD
 docker buildx create --use --name mybuilder
 docker buildx build --platform linux/arm64,linux/amd64 $buildTarget $buildVersion $buildVersionLatest $push .

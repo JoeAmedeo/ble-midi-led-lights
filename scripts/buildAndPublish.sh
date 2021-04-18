@@ -66,7 +66,6 @@ buildVersionLatest=$( echo "-t $user/$image:latest" )
 buildTarget=$(! [ -v $target ] && echo "--target $target" || echo "")
 
 docker login -u $user -p $PASSWORD
-docker buildx create --use --name mybuilder
 docker buildx build --platform linux/arm64 $buildTarget $buildVersion $buildVersionLatest .
 if [ "$publish" = true ]
 then

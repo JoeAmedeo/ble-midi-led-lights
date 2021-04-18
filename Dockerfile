@@ -8,7 +8,7 @@ COPY . .
 
 RUN go build 
 
-RUN go test
+RUN go test -v
 
 FROM alpine:3.13 AS runner
 

@@ -71,5 +71,5 @@ echo $publish
 echo $pushImages
 
 docker login -u $user -p $PASSWORD
-docker buildx create --use --name mybuilder
+docker buildx create --platform linux/arm/v7 --use --name mybuilder
 docker buildx build --platform linux/arm/v7 $buildTarget $buildVersion $buildVersionLatest $pushImages .

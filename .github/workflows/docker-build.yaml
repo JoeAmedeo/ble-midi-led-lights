@@ -32,4 +32,4 @@ jobs:
         USERNAME: 'joeamedeo'
         IMAGE: 'ble-midi-drums'
         STAGE: 'builder'
-      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }} -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -v=${{ env.VERSION }} -t=${{ env.STAGE }}
+      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }} -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -t=${{ env.STAGE }}

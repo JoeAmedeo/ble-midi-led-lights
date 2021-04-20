@@ -8,8 +8,6 @@ COPY . .
 
 RUN go build 
 
-RUN go test -v
-
 FROM arm32v7/alpine:3.13 AS runner
 
 WORKDIR /app

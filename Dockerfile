@@ -1,4 +1,4 @@
-FROM arm32v7/golang:1.15-alpine AS builder
+FROM arm32v7/golang:1.15 AS builder
 
 # RUN apt-get update && apt-get install -y gcc-aarch64-linux-gnu
 

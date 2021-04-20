@@ -3,9 +3,20 @@
 
   tasks:
 
+    - name: Print running images
+      command: docker ps -q
+      register: ps
+      become: yes
+
+    - debug: msg="{{ ps.stdout }}"
+
     # NOTE: Don't run this on a pi that 
     - name: Kill all running containers
-      command: docker kill $(docker ps -q)
+      command: docker kill {{ ps.stdout }}
+      register: kill
+      become: yes
+      when: ps.stdout != ""
 
     - name: Run updated Docker image
-      command: docker run joeamedeo/ble-midi-drums:{{ version }}
+      command: docker run joeamedeo/ble-midi-drums:{{ version }} -d
+      become: yes

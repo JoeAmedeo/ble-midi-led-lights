@@ -1,4 +1,4 @@
-FROM golang:1.16 AS builder
+FROM arm32v7/golang:1.15-alpine AS builder
 
 # RUN apt-get update && apt-get install -y gcc-aarch64-linux-gnu
 
@@ -10,7 +10,7 @@ RUN go build
 
 RUN go test -v
 
-FROM alpine:3.13 AS runner
+FROM arm32v7/alpine:3.13 AS runner
 
 WORKDIR /app
 

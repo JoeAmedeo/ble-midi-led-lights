@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM golang:1.15 AS builder
+FROM --platform=$TARGETPLATFORM golang:1.15 AS builder
 
 # RUN apt-get update && apt-get install -y gcc-aarch64-linux-gnu
 
@@ -10,7 +10,7 @@ RUN go build
 
 RUN go test -v
 
-FROM --platform=$BUILDPLATFORM alpine:3.13 AS runner
+FROM --platform=$TARGETPLATFORM alpine:3.13 AS runner
 
 WORKDIR /app
 

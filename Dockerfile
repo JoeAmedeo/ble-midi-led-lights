@@ -6,6 +6,9 @@ WORKDIR /app
 
 COPY . .
 
+ENV GOOS=linux\
+    GOARCH=$TARGETPLATFORM
+
 RUN go build 
 
 RUN go test -v

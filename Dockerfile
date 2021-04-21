@@ -6,6 +6,9 @@ WORKDIR /app
 
 COPY . .
 
+RUN echo $TARGETPLATFORM
+RUN echo $BUILDPLATFORM
+
 ENV GOOS=linux\
     GOARCH=arm
 

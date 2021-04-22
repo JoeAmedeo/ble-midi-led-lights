@@ -10,7 +10,8 @@ RUN echo $TARGETPLATFORM
 RUN echo $BUILDPLATFORM
 
 ENV GOOS=linux\
-    GOARCH=arm
+    GOARCH=arm\
+    CGO_ENABLED=1
 
 RUN go build 
 

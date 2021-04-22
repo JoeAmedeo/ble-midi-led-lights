@@ -35,4 +35,4 @@ jobs:
         GOOS: 'linux'
         CGO_ENABLED: 0
         GOARCHL: 'arm'
-      run: docker buildx build --platform linux/arm ${{ env.USERNAME }}/${{ env.IMAGE }}:latest --target ${{ env.STAGE }} .
+      run: docker buildx build --platform linux/arm -t ${{ env.USERNAME }}/${{ env.IMAGE }}:latest --target ${{ env.STAGE }} .

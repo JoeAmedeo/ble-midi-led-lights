@@ -26,10 +26,18 @@ jobs:
       id: buildx
       uses: docker/setup-buildx-action@v1
     
+    - name: Log in to Docker
+      env:
+        PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        USERNAME: 'joeamedeo'
+      run: docker login -u ${{ env.USERNAME }} -p ${{ env.PASSWORD }}
+    
     - name: Build and Publish
       env:
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         USERNAME: 'joeamedeo'
         IMAGE: 'ble-midi-drums'
-        STAGE: 'runner'
-      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }} -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -v=${{ env.RELEASE_VERSION }} -t=${{ env.STAGE }} --publish
+        GOOS: 'linux'
+        CGO_ENABLED: 0
+        GOARCHL: 'arm'
+      run: docker buildx build --platform linux/arm -t ${{ env.USERNAME }}/${{ env.IMAGE }}:latest -t ${{ env.USERNAME }}/${{ env.IMAGE }}:${{ env.RELEASE_VERSION }} . --push

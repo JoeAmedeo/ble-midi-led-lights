@@ -32,4 +32,7 @@ jobs:
         USERNAME: 'joeamedeo'
         IMAGE: 'ble-midi-drums'
         STAGE: 'builder'
-      run: ./scripts/buildAndPublish.sh -u=${{ env.USERNAME }} -p=${{ env.PASSWORD }} -i=${{ env.IMAGE }} -t=${{ env.STAGE }}
+        GOOS: 'linux'
+        CGO_ENABLED: 0
+        GOARCHL: 'arm'
+      run: docker buildx build --platform linux/arm ${{ env.USERNAME }}/${{ env.IMAGE }}:latest --target ${{ env.STAGE }} .

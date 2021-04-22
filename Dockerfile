@@ -11,13 +11,13 @@ RUN echo $BUILDPLATFORM
 
 ENV GOOS=linux\
     GOARCH=arm\
-    CGO_ENABLED=1
+    CGO_ENABLED=0
 
 RUN go build 
 
 RUN go test -v
 
-FROM --platform=linux/arm alpine:3.13 AS runner
+FROM scratch AS runner
 
 WORKDIR /app
 

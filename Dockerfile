@@ -6,12 +6,12 @@ WORKDIR /app
 
 COPY . .
 
-RUN echo $TARGETPLATFORM
-RUN echo $BUILDPLATFORM
+RUN apt-get install libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev build-essential bison flex libssl-dev bc
 
 ENV GOOS=linux\
     GOARCH=arm\
-    CGO_ENABLED=0
+    CGO_ENABLED=1\
+    CC=gcc-arm-linux-gnueabihf
 
 RUN go build 
 

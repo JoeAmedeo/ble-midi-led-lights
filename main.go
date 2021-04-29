@@ -21,6 +21,7 @@ func Run(adapterID string, onlyBeacon bool) error {
 
 	a, err := adapter.GetAdapter(adapterID)
 	if err != nil {
+		log.Errorln(err)
 		return err
 	}
 
@@ -144,5 +145,9 @@ func handleBeacon(dev *device.Device1) error {
 }
 
 func main() {
-	Run("", false)
+	log.Println("testing 123")
+	err := Run("", false)
+	if err != nil {
+		log.Errorln(err)
+	}
 }

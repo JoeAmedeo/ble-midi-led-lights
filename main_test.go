@@ -1,4 +1,4 @@
-package drums
+package main
 
 import (
 	"testing"

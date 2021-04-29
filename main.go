@@ -1,5 +1,5 @@
 //shows how to watch for new devices and list them
-package drums
+package main
 
 import (
 	"context"
@@ -141,4 +141,8 @@ func handleBeacon(dev *device.Device1) error {
 	}
 
 	return nil
+}
+
+func main() {
+	Run("", false)
 }

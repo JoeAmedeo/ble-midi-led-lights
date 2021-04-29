@@ -19,9 +19,8 @@ func Run(adapterID string, onlyBeacon bool) error {
 	//clean up connection on exit
 	defer api.Exit()
 
-	a, err := adapter.GetAdapter(adapterID)
+	a, err := adapter.GetDefaultAdapter()
 	if err != nil {
-		log.Errorln(err)
 		return err
 	}
 

@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	macAddress := os.Args[0]
+	macAddress := os.Args[1]
 	err := bluetooth.Run(macAddress)
 	if err != nil {
 		log.Errorln(err)

@@ -1,6 +1,6 @@
-module main
+module ble-midi-drums
 
-go 1.15
+go 1.16
 
 require (
 	github.com/godbus/dbus/v5 v5.0.4 // indirect

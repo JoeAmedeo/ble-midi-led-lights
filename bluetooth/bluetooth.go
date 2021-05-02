@@ -71,5 +71,7 @@ func Run(macAddress string) error {
 		return fmt.Errorf("device not found")
 	}
 
+	log.Infoln("Connection succeeded!")
+
 	return nil
 }

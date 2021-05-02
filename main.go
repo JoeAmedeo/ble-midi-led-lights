@@ -30,6 +30,36 @@ func Run(adapterID string, onlyBeacon bool) error {
 		return err
 	}
 
+	// Have to make sure it's paired first
+
+	devices, err := a.GetDevices()
+
+	if err != nil {
+		return err
+	}
+
+	var drumkit *device.Device1
+
+	for _, device := range devices {
+		if device.Properties.Address == "TODO: parameterize MAC Address of the device" {
+			drumkit := device
+			break
+		}
+	}
+
+	if !device.Properties.Paired {
+		err := device.Pair()
+		if err != nil {
+			return err
+		}
+	}
+	if !device.Properties.Connected {
+		err := device.Connect()
+		if err != nil {
+			return err
+		}
+	}
+
 	log.Debug("Start discovery")
 	discovery, cancel, err := api.Discover(a, nil)
 	if err != nil {

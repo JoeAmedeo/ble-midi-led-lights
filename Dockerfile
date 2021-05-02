@@ -9,7 +9,7 @@ ENV GOOS=linux\
 
 RUN go build 
 
-RUN go test -v
+RUN go test *.go -v
 
 FROM --platform=linux/arm scratch AS runner
 

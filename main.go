@@ -2,12 +2,14 @@
 package main
 
 import (
+	"os"
+
 	"github.com/muka/go-bluetooth/api"
 	"github.com/muka/go-bluetooth/bluez/profile/adapter"
 	log "github.com/sirupsen/logrus"
 )
 
-func Run(adapterID string, onlyBeacon bool) error {
+func Run(macAddress string) error {
 
 	//clean up connection on exit
 	defer api.Exit()
@@ -21,6 +23,9 @@ func Run(adapterID string, onlyBeacon bool) error {
 
 	// Have to make sure it's paired first
 	drumkit, err := a.GetDeviceByAddress("TODO: parameterize the mac address")
+	if err != nil {
+		return nil
+	}
 
 	if !drumkit.Properties.Paired {
 		err := drumkit.Pair()
@@ -40,7 +45,8 @@ func Run(adapterID string, onlyBeacon bool) error {
 }
 
 func main() {
-	err := Run("", false)
+	macAddress := os.Args[0]
+	err := Run(macAddress)
 	if err != nil {
 		log.Errorln(err)
 	}

@@ -3,6 +3,7 @@ package bluetooth
 import (
 	"fmt"
 
+	"github.com/godbus/dbus/v5"
 	"github.com/muka/go-bluetooth/api"
 	"github.com/muka/go-bluetooth/bluez/profile/adapter"
 	"github.com/muka/go-bluetooth/bluez/profile/agent"
@@ -16,6 +17,18 @@ func Run(macAddress string) error {
 
 	//clean up connection on exit
 	defer api.Exit()
+
+	//Connect DBus System bus
+	conn, err := dbus.SystemBus()
+	if err != nil {
+		return err
+	}
+
+	ag := agent.NewSimpleAgent()
+	err = agent.ExposeAgent(conn, ag, agent.CapKeyboardDisplay, true)
+	if err != nil {
+		return fmt.Errorf("SimpleAgent: %s", err)
+	}
 
 	a, err := adapter.GetDefaultAdapter()
 	if err != nil {

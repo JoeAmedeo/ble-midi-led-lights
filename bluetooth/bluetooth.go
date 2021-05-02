@@ -19,6 +19,7 @@ func Run(macAddress string) error {
 		return err
 	}
 
+	log.Infof("Adapter created: %s", a.Properties.Name)
 	// don't know yet if I'll have to clear the bluez cache, if needed use a.FlushDevices()
 
 	// Have to make sure it's paired first
@@ -27,9 +28,9 @@ func Run(macAddress string) error {
 		return err
 	}
 
-	log.Infoln(drumkit)
+	log.Infof("Device found: %s", drumkit.Properties.Name)
 
-	if drumkit.Properties.Paired == false {
+	if !drumkit.Properties.Paired {
 		log.Infoln("Device needs to be paired")
 		err := drumkit.Pair()
 		if err != nil {
@@ -37,7 +38,7 @@ func Run(macAddress string) error {
 		}
 	}
 
-	if drumkit.Properties.Connected == false {
+	if !drumkit.Properties.Connected {
 		log.Infoln("Device needs to be connected")
 		err := drumkit.Connect()
 		if err != nil {

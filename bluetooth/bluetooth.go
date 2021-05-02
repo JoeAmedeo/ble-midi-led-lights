@@ -9,6 +9,7 @@ import (
 func Run(macAddress string) error {
 
 	log.Infoln("Starting connection process")
+	log.Infof("MAC Address: %s", macAddress)
 
 	//clean up connection on exit
 	defer api.Exit()
@@ -26,7 +27,9 @@ func Run(macAddress string) error {
 		return err
 	}
 
-	if !drumkit.Properties.Paired {
+	log.Infoln(drumkit)
+
+	if drumkit.Properties.Paired == false {
 		log.Infoln("Device needs to be paired")
 		err := drumkit.Pair()
 		if err != nil {
@@ -34,7 +37,7 @@ func Run(macAddress string) error {
 		}
 	}
 
-	if !drumkit.Properties.Connected {
+	if drumkit.Properties.Connected == false {
 		log.Infoln("Device needs to be connected")
 		err := drumkit.Connect()
 		if err != nil {

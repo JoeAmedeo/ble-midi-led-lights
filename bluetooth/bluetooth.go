@@ -1,6 +1,8 @@
 package bluetooth
 
 import (
+	"fmt"
+
 	"github.com/muka/go-bluetooth/api"
 	"github.com/muka/go-bluetooth/bluez/profile/adapter"
 	log "github.com/sirupsen/logrus"
@@ -26,6 +28,10 @@ func Run(macAddress string) error {
 	drumkit, err := a.GetDeviceByAddress(macAddress)
 	if err != nil {
 		return err
+	}
+
+	if drumkit == nil {
+		return fmt.Errorf("device not found")
 	}
 
 	log.Infof("Device found: %s", drumkit.Properties.Name)

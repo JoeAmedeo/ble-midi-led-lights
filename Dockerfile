@@ -9,6 +9,12 @@ ENV GOOS=linux\
 
 RUN go build 
 
+FROM --platform=linux/amd64 golang:1.15 AS tester
+
+WORKDIR /app
+
+COPY . .
+
 RUN go test -v
 
 FROM --platform=linux/arm scratch AS runner

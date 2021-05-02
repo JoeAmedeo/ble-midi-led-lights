@@ -21,7 +21,7 @@ func Run(macAddress string) error {
 	// don't know yet if I'll have to clear the bluez cache, if needed use a.FlushDevices()
 
 	// Have to make sure it's paired first
-	drumkit, err := a.GetDeviceByAddress("TODO: parameterize the mac address")
+	drumkit, err := a.GetDeviceByAddress(macAddress)
 	if err != nil {
 		return err
 	}

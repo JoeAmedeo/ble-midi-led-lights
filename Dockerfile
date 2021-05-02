@@ -9,12 +9,12 @@ ENV GOOS=linux\
 
 RUN go build 
 
-RUN go test *.go -v
+RUN go test ./...
 
 FROM --platform=linux/arm scratch AS runner
 
 WORKDIR /app
 
-COPY --from=builder /app/main .
+COPY --from=builder /app/ble-midi-drums .
 
-CMD ["./main"]
+CMD ["./ble-midi-drums"]

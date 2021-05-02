@@ -40,6 +40,8 @@ func Run(macAddress string) error {
 
 	for _, device := range devices {
 
+		log.Infof("%s --- %s", device.Properties.Name, device.Properties.Address)
+
 		if device.Properties.Address != macAddress {
 			continue
 		}

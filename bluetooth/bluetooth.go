@@ -32,7 +32,13 @@ func Run(macAddress string) error {
 	log.Infof("device address: %s", mydevice.Properties.Address)
 	log.Infof("device name: %s", mydevice.Properties.Name)
 
-	if !mydevice.Properties.Connected {
+	isConnected, err := mydevice.GetConnected()
+
+	if err != nil {
+		return fmt.Errorf("getting connection status failed: %s", err)
+	}
+
+	if !isConnected {
 		err = mydevice.Connect()
 		if err != nil {
 			return fmt.Errorf("connect failed: %s", err)

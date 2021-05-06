@@ -3,10 +3,10 @@ package bluetooth
 import (
 	"fmt"
 
-	"github.com/godbus/dbus/v5"
 	"github.com/muka/go-bluetooth/api"
 	"github.com/muka/go-bluetooth/bluez/profile/adapter"
 	"github.com/muka/go-bluetooth/bluez/profile/agent"
+	"github.com/muka/go-bluetooth/bluez/profile/device"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -17,18 +17,6 @@ func Run(macAddress string) error {
 
 	//clean up connection on exit
 	defer api.Exit()
-
-	//Connect DBus System bus
-	conn, err := dbus.SystemBus()
-	if err != nil {
-		return err
-	}
-
-	ag := agent.NewSimpleAgent()
-	err = agent.ExposeAgent(conn, ag, agent.CapKeyboardDisplay, true)
-	if err != nil {
-		return fmt.Errorf("SimpleAgent: %s", err)
-	}
 
 	a, err := adapter.GetDefaultAdapter()
 	if err != nil {
@@ -44,39 +32,48 @@ func Run(macAddress string) error {
 	// don't know yet if I'll have to clear the bluez cache, if needed use a.FlushDevices()
 
 	// Have to make sure it's paired first
-	devices, err := a.GetDevices()
+
+	discovery, cancel, err := api.Discover(a, nil)
+
 	if err != nil {
-		return err
+		return fmt.Errorf("discovery failed: %s", err)
 	}
+
+	defer cancel()
 
 	found := false
 
-	for _, device := range devices {
+	for discoveredDevice := range discovery {
 
-		log.Infof("%s --- %s", device.Properties.Name, device.Properties.Address)
+		mydevice, err := device.NewDevice1(discoveredDevice.Path)
 
-		if device.Properties.Address != macAddress {
+		if err != nil {
+			return fmt.Errorf("creating device failed: %s", err)
+		}
+
+		if mydevice.Properties.Address != macAddress {
 			continue
 		}
 
-		if device.Properties.Paired {
+		if mydevice.Properties.Paired {
 			continue
 		}
 
 		found = true
 		// log.Info(i, v.Path)
-		log.Infof("Pairing with %s", device.Properties.Address)
+		log.Infof("Pairing with %s", mydevice.Properties.Address)
 
-		err := device.Pair()
+		err = mydevice.Pair()
+
 		if err != nil {
 			return fmt.Errorf("pair failed: %s", err)
 		}
 
 		log.Info("Pair succeed, connecting...")
 
-		agent.SetTrusted(adapterId, device.Path())
+		agent.SetTrusted(adapterId, mydevice.Path())
 
-		err = device.Connect()
+		err = mydevice.Connect()
 		if err != nil {
 			return fmt.Errorf("connect failed: %s", err)
 		}

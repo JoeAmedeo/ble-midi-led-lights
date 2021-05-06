@@ -47,6 +47,10 @@ func Run(macAddress string) error {
 
 		mydevice, err := device.NewDevice1(discoveredDevice.Path)
 
+		log.Infof("device path: %s", discoveredDevice.Path)
+		log.Infof("device address: %s", mydevice.Properties.Address)
+		log.Infof("device name: %s", mydevice.Properties.Name)
+
 		if err != nil {
 			return fmt.Errorf("creating device failed: %s", err)
 		}

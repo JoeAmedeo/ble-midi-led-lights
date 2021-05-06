@@ -2,6 +2,7 @@ package bluetooth
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/muka/go-bluetooth/api"
 	"github.com/muka/go-bluetooth/bluez/profile/adapter"
@@ -48,5 +49,22 @@ func Run(macAddress string) error {
 
 	log.Infoln("Connection succeeded!")
 
-	return nil
+	changedPropertyChannel, err := mydevice.WatchProperties()
+
+	if err != nil {
+		return fmt.Errorf("obtaining variable watch channel failed: %s", err)
+	}
+
+	for {
+		select {
+		case property := <-changedPropertyChannel:
+			log.Infof("changed property name: %s", property.Name)
+			log.Infof("changed property value: %s", property.Value)
+			if property.Name == "Connected" && property.Value == false {
+				// TODO: attempt to connect to device every few seconds until it succeeds
+			}
+		default:
+			time.Sleep(1000 * time.Millisecond)
+		}
+	}
 }

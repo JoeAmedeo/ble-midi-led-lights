@@ -39,6 +39,7 @@ func Run(macAddress string) error {
 	}
 
 	if !isConnected {
+		log.Infoln("Attempting to connect")
 		err = mydevice.Connect()
 		if err != nil {
 			return fmt.Errorf("connect failed: %s", err)

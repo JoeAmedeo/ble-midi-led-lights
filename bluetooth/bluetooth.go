@@ -32,14 +32,6 @@ func Run(macAddress string) error {
 	log.Infof("device address: %s", mydevice.Properties.Address)
 	log.Infof("device name: %s", mydevice.Properties.Name)
 
-	if !mydevice.Properties.Paired {
-		log.Infof("Pairing with %s", mydevice.Properties.Address)
-		err = mydevice.Pair()
-		if err != nil {
-			return fmt.Errorf("pair failed: %s", err)
-		}
-	}
-
 	if !mydevice.Properties.Connected {
 		err = mydevice.Connect()
 		if err != nil {

@@ -2,14 +2,15 @@ package bluetooth
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/muka/go-bluetooth/api"
+	"github.com/muka/go-bluetooth/bluez"
 	"github.com/muka/go-bluetooth/bluez/profile/adapter"
 	log "github.com/sirupsen/logrus"
 )
 
-func Run(macAddress string) error {
-
+func Connect(macAddress string) (chan *bluez.PropertyChanged, error) {
 	log.Infoln("Starting connection process")
 	log.Infof("MAC Address: %s", macAddress)
 
@@ -18,12 +19,12 @@ func Run(macAddress string) error {
 
 	a, err := adapter.GetDefaultAdapter()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	mydevice, err := a.GetDeviceByAddress(macAddress)
 	if err != nil {
-		return fmt.Errorf("obtaining device failed: %s", err)
+		return nil, fmt.Errorf("obtaining device failed: %s", err)
 	}
 	// don't know yet if I'll have to clear the bluez cache, if needed use a.FlushDevices()
 
@@ -35,25 +36,29 @@ func Run(macAddress string) error {
 	isConnected, err := mydevice.GetConnected()
 
 	if err != nil {
-		return fmt.Errorf("getting connection status failed: %s", err)
+		return nil, fmt.Errorf("getting connection status failed: %s", err)
 	}
 
 	if !isConnected {
 		log.Infoln("Attempting to connect")
 		err = mydevice.Connect()
 		if err != nil {
-			return fmt.Errorf("connect failed: %s", err)
+			return nil, fmt.Errorf("connect failed: %s", err)
 		}
 	}
 
 	log.Infoln("Connection succeeded!")
 
-	/* changedPropertyChannel, err := mydevice.WatchProperties()
+	changedPropertyChannel, err := mydevice.WatchProperties()
 
 	if err != nil {
-		return fmt.Errorf("obtaining variable watch channel failed: %s", err)
+		return nil, fmt.Errorf("obtaining variable watch channel failed: %s", err)
 	}
 
+	return changedPropertyChannel, nil
+}
+
+func KillOnDisconnect(changedPropertyChannel chan *bluez.PropertyChanged, killChannel chan os.Signal, Exit func(int)) {
 	for {
 		select {
 		case property := <-changedPropertyChannel:
@@ -61,11 +66,10 @@ func Run(macAddress string) error {
 			log.Infof("changed property value: %s", property.Value)
 			if property.Name == "Connected" && property.Value == false {
 				// TODO: attempt to connect to device every few seconds until it succeeds
+				log.Infoln("Device was disconnected")
 			}
-		default:
-			time.Sleep(1000 * time.Millisecond)
+		case <-killChannel:
+			Exit(0)
 		}
-	} */
-
-	return nil
+	}
 }

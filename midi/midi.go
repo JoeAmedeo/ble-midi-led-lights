@@ -61,7 +61,7 @@ func Connect() (midi.In, error) {
 		return nil, fmt.Errorf("opening input failed: %s", err)
 	}
 
-	myReader := reader.New(reader.NoLogger(), reader.Each(func(pos *reader.Position, msg midi.Message) {
+	myReader := reader.New(reader.Each(func(pos *reader.Position, msg midi.Message) {
 		// TODO, This function will trigger
 		log.Printf("got message %s\n", msg)
 	}),

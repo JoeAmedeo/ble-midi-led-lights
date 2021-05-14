@@ -18,9 +18,12 @@ func main() {
 	if err != nil {
 		log.Errorln(err)
 	}
-	err = midi.Connect()
+	in, err := midi.Connect()
 	if err != nil {
 		log.Errorln(err)
+	}
+	if in != nil {
+		defer in.Close()
 	}
 
 	sig := make(chan os.Signal, 1)

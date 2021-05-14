@@ -37,18 +37,18 @@ const (
 	AUX_RIM             int = 28
 )
 
-func Connect() error {
+func Connect() (midi.In, error) {
 	myDriver, err := driver.New()
 
 	if err != nil {
-		return fmt.Errorf("creating driver failed: %s", err)
+		return nil, fmt.Errorf("creating driver failed: %s", err)
 	}
 
 	defer myDriver.Close()
 
 	ins, err := myDriver.Ins()
 	if err != nil {
-		return fmt.Errorf("get input streams failed: %s", err)
+		return nil, fmt.Errorf("get input streams failed: %s", err)
 	}
 
 	in := ins[0]
@@ -56,10 +56,8 @@ func Connect() error {
 	err = in.Open()
 
 	if err != nil {
-		return fmt.Errorf("opening input failed: %s", err)
+		return nil, fmt.Errorf("opening input failed: %s", err)
 	}
-
-	defer in.Close()
 
 	myReader := reader.New(reader.NoLogger(), reader.Each(func(pos *reader.Position, msg midi.Message) {
 		// TODO, This function will trigger
@@ -70,10 +68,10 @@ func Connect() error {
 	err = myReader.ListenTo(in)
 
 	if err != nil {
-		return fmt.Errorf("reading from input failed: %s", err)
+		return in, fmt.Errorf("reading from input failed: %s", err)
 	}
 
 	log.Println("Midi listener added without errors!")
 
-	return nil
+	return in, nil
 }

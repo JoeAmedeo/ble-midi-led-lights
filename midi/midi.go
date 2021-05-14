@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"gitlab.com/gomidi/midi"
 	"gitlab.com/gomidi/midi/reader"
-	driver "gitlab.com/gomidi/midicatdrv"
+	driver "gitlab.com/gomidi/rtmididrv"
 )
 
 // constants for default midi values from the TD-17 module: https://rolandus.zendesk.com/hc/en-us/articles/360005173411-TD-17-Default-Factory-MIDI-Note-Map

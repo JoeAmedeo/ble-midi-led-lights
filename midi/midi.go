@@ -41,7 +41,7 @@ func Connect() (midi.In, error) {
 	myDriver, err := driver.New()
 
 	if err != nil {
-		return nil, fmt.Errorf("creating driver failed: %d", err)
+		return nil, fmt.Errorf("creating driver failed: %s", err)
 	}
 
 	defer myDriver.Close()
@@ -51,7 +51,7 @@ func Connect() (midi.In, error) {
 		return nil, fmt.Errorf("get input streams failed: %s", err)
 	}
 
-	log.Printf("Number of available midi inputs: %s", len(ins))
+	log.Printf("Number of available midi inputs: %d", len(ins))
 
 	in := ins[0]
 

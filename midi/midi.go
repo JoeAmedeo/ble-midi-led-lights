@@ -49,7 +49,9 @@ func Connect() (midi.In, error) {
 		return nil, fmt.Errorf("get input streams failed: %s", err)
 	}
 
-	log.Printf("Number of available midi inputs: %d", len(ins))
+	for _, input := range ins {
+		log.Printf("input device info: %s", input.String())
+	}
 
 	in := ins[0]
 

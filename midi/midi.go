@@ -41,7 +41,7 @@ func Connect() (midi.In, error) {
 	myDriver, err := driver.New()
 
 	if err != nil {
-		return nil, fmt.Errorf("creating driver failed: %s", err)
+		return nil, fmt.Errorf("creating driver failed: %d", err)
 	}
 
 	defer myDriver.Close()

@@ -44,8 +44,6 @@ func Connect() (midi.In, error) {
 		return nil, fmt.Errorf("creating driver failed: %s", err)
 	}
 
-	defer myDriver.Close()
-
 	ins, err := myDriver.Ins()
 	if err != nil {
 		return nil, fmt.Errorf("get input streams failed: %s", err)

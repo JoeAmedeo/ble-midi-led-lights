@@ -53,7 +53,7 @@ func Connect() (midi.In, error) {
 		log.Printf("input device info: %s", input.String())
 	}
 
-	in := ins[0]
+	in := ins[1]
 
 	err = in.Open()
 

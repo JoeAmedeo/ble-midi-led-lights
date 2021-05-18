@@ -22,6 +22,9 @@ func Connect(macAddress string) (chan *bluez.PropertyChanged, error) {
 		return nil, err
 	}
 
+	// This command fails if we dont run a scan prior to.
+	// have to find a way to do this programatically
+	// for now, can use the pi terminal, run `sudo bluetoothclt, agent on, scan on`
 	mydevice, err := a.GetDeviceByAddress(macAddress)
 	if err != nil {
 		return nil, fmt.Errorf("obtaining device failed: %s", err)

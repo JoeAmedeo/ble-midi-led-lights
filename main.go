@@ -2,7 +2,6 @@
 package main
 
 import (
-	"ble-midi-drums/bluetooth"
 	"fmt"
 	"os"
 	"os/signal"
@@ -16,11 +15,6 @@ import (
 )
 
 func main() {
-	macAddress := os.Args[1]
-	changedPropertyChannel, err := bluetooth.Connect(macAddress)
-	if err != nil {
-		log.Errorln(err)
-	}
 
 	myDriver, err := driver.New()
 
@@ -70,7 +64,14 @@ func main() {
 	var waitGroup sync.WaitGroup
 	waitGroup.Add(1)
 
-	go bluetooth.KillOnDisconnect(changedPropertyChannel, sig, os.Exit)
+	go func(killChannel chan os.Signal, Exit func(int)) {
+		for {
+			select {
+			case <-killChannel:
+				Exit(0)
+			}
+		}
+	}(sig, os.Kill)
 
 	waitGroup.Wait()
 }

@@ -1,5 +1,5 @@
-# ble-midi-led-lights
-Input midi over bluetooth on a raspberry pi and trigger led strips
+# midi-led-lights
+Input midi on a raspberry pi and trigger led strips
 
 This project was influenced by a modified Roland TD50 I saw on a Twitch, which had LEDs installed under each mesh pad. I wanted to see if I could improve upon the example I saw, and be able to trigger lighting effect according to what you play. I will be creating 
 

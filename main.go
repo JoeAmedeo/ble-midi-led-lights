@@ -9,7 +9,6 @@ import (
 	"syscall"
 
 	log "github.com/sirupsen/logrus"
-	"gitlab.com/gomidi/midi"
 	"gitlab.com/gomidi/midi/reader"
 	driver "gitlab.com/gomidi/rtmididrv"
 )
@@ -40,10 +39,10 @@ func main() {
 		panic(fmt.Errorf("openning input failed: %s", err))
 	}
 
-	myReader := reader.New(reader.Each(func(pos *reader.Position, msg midi.Message) {
-		// TODO, This function will trigger
-		log.Printf("got message %s\n", msg)
-	}),
+	myReader := reader.New(
+		reader.NoteOn(func(p *reader.Position, channel, key, velocity uint8) {
+			fmt.Printf("NoteOn (ch %v: key %v vel: %v)\n", channel, key, velocity)
+		}),
 	)
 
 	err = myReader.ListenTo(in)

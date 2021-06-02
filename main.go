@@ -25,22 +25,19 @@ func main() {
 	defer myDriver.Close()
 
 	ins, err := myDriver.Ins()
-	if err != nil {
-		panic(fmt.Errorf("get input streams failed: %s", err))
-	}
 
-	for _, input := range ins {
-		log.Printf("input device info: %s", input.String())
+	if err != nil {
+		panic(fmt.Errorf("getting input channels failed: %s", err))
 	}
 
 	in := ins[1]
 
-	err = in.Open()
-
 	defer in.Close()
 
+	err = in.Open()
+
 	if err != nil {
-		panic(fmt.Errorf("opening input failed: %s", err))
+		panic(fmt.Errorf("openning input failed: %s", err))
 	}
 
 	myReader := reader.New(reader.Each(func(pos *reader.Position, msg midi.Message) {
@@ -71,7 +68,7 @@ func main() {
 				Exit(0)
 			}
 		}
-	}(sig, os.Kill)
+	}(sig, os.Exit)
 
 	waitGroup.Wait()
 }

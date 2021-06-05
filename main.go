@@ -26,7 +26,7 @@ func randomUInt32(min, max uint32) uint32 {
 // for now, set all LEDs to a random color
 func setAllLeds(device *ws2811.WS2811) error {
 	onColor := uint32(0xffffff)
-	offColor := uint32(0xffffff)
+	offColor := uint32(0x000000)
 	on := false
 	log.Printf("color values: %d, %d", onColor, offColor)
 	for i := 0; i < len(device.Leds(0)); i++ {
@@ -38,6 +38,7 @@ func setAllLeds(device *ws2811.WS2811) error {
 		} else {
 			currentColor = offColor
 		}
+		log.Printf("current on status: %t", on)
 		device.Leds(0)[i] = currentColor
 		log.Printf("current led value: %d", device.Leds(0)[i])
 	}

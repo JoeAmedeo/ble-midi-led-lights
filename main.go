@@ -35,8 +35,9 @@ func setAllLeds(device *ws2811.WS2811) error {
 	randomBlue := randomUInt32(0, 256)
 	log.Printf("rgb values: %d, %d, %d", randomRed, randomGreen, randomBlue)
 	for i := 0; i < len(device.Leds(0)); i++ {
-		log.Printf("%d", i)
+		log.Printf("current led: %d", i)
 		device.Leds(0)[i] = rgbToColor(randomRed, randomGreen, randomBlue)
+		log.Printf("current led value: %d", device.Leds(0)[i])
 	}
 	return device.Render()
 }

@@ -1,14 +1,5 @@
 package midi
 
-import (
-	"fmt"
-
-	log "github.com/sirupsen/logrus"
-	"gitlab.com/gomidi/midi"
-	"gitlab.com/gomidi/midi/reader"
-	driver "gitlab.com/gomidi/rtmididrv"
-)
-
 // constants for default midi values from the TD-17 module: https://rolandus.zendesk.com/hc/en-us/articles/360005173411-TD-17-Default-Factory-MIDI-Note-Map
 const (
 	KICK                int = 36
@@ -36,44 +27,3 @@ const (
 	AUX_HEAD            int = 27
 	AUX_RIM             int = 28
 )
-
-func Connect() (midi.In, error) {
-	myDriver, err := driver.New()
-
-	if err != nil {
-		return nil, fmt.Errorf("creating driver failed: %s", err)
-	}
-
-	ins, err := myDriver.Ins()
-	if err != nil {
-		return nil, fmt.Errorf("get input streams failed: %s", err)
-	}
-
-	for _, input := range ins {
-		log.Printf("input device info: %s", input.String())
-	}
-
-	in := ins[1]
-
-	err = in.Open()
-
-	if err != nil {
-		return nil, fmt.Errorf("opening input failed: %s", err)
-	}
-
-	myReader := reader.New(reader.Each(func(pos *reader.Position, msg midi.Message) {
-		// TODO, This function will trigger
-		log.Printf("got message %s\n", msg)
-	}),
-	)
-
-	err = myReader.ListenTo(in)
-
-	if err != nil {
-		return in, fmt.Errorf("reading from input failed: %s", err)
-	}
-
-	log.Println("Midi listener added without errors!")
-
-	return in, nil
-}

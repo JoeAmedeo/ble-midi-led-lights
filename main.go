@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"os/signal"
 	"sync"
@@ -11,7 +12,36 @@ import (
 	log "github.com/sirupsen/logrus"
 	"gitlab.com/gomidi/midi/reader"
 	driver "gitlab.com/gomidi/rtmididrv"
+
+	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 )
+
+func randomUInt32(min, max uint32) uint32 {
+	var a = rand.Uint32()
+	a %= (max - min)
+	a += min
+	return a
+}
+
+// stolen from this example: https://github.com/rpi-ws281x/rpi-ws281x-go/blob/master/examples/invader8x8/invader8x8.go
+func rgbToColor(r uint32, g uint32, b uint32) uint32 {
+	return ((r>>8)&0xff)<<16 + ((g>>8)&0xff)<<8 + ((b >> 8) & 0xff)
+}
+
+// for now, set all LEDs to a random color
+func setAllLeds(device *ws2811.WS2811) error {
+	randomRed := randomUInt32(0, 256)
+	randomGreen := randomUInt32(0, 256)
+	randomBlue := randomUInt32(0, 256)
+	for i := 0; i < len(device.Leds(0)); i++ {
+		device.Leds(0)[i] = rgbToColor(randomRed, randomGreen, randomBlue)
+	}
+	err := device.Render()
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func main() {
 
@@ -39,9 +69,27 @@ func main() {
 		panic(fmt.Errorf("openning input failed: %s", err))
 	}
 
+	ledOptions := ws2811.DefaultOptions
+	ledOptions.Channels[0].Brightness = 90
+	ledOptions.Channels[0].LedCount = 4
+
+	device, err := ws2811.MakeWS2811(&ledOptions)
+
+	if err != nil {
+		panic(fmt.Errorf("failed to create LED device: %s", err))
+	}
+
+	err = device.Init()
+
+	if err != nil {
+		panic(fmt.Errorf("failed to initialize LED device: %s", err))
+	}
+
+	defer device.Fini()
+
 	myReader := reader.New(
 		reader.NoteOn(func(p *reader.Position, channel, key, velocity uint8) {
-			fmt.Printf("NoteOn (ch %v: key %v vel: %v)\n", channel, key, velocity)
+			setAllLeds(device)
 		}),
 	)
 

@@ -3,6 +3,7 @@ module ble-midi-drums
 go 1.16
 
 require (
+	github.com/rpi-ws281x/rpi-ws281x-go v1.0.8
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.6.1 // indirect
 	gitlab.com/gomidi/midi v1.23.4

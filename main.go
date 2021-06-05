@@ -35,13 +35,10 @@ func setAllLeds(device *ws2811.WS2811) error {
 	randomBlue := randomUInt32(0, 256)
 	log.Printf("rgb values: %d, %d, %d", randomRed, randomGreen, randomBlue)
 	for i := 0; i < len(device.Leds(0)); i++ {
+		log.Printf("%d", i)
 		device.Leds(0)[i] = rgbToColor(randomRed, randomGreen, randomBlue)
 	}
-	err := device.Render()
-	if err != nil {
-		return err
-	}
-	return nil
+	return device.Render()
 }
 
 func main() {

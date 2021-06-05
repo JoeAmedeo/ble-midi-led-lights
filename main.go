@@ -70,6 +70,7 @@ func main() {
 	}
 
 	ledOptions := ws2811.DefaultOptions
+	ledOptions.Channels[0].Brightness = 45
 	ledOptions.Channels[0].LedCount = 4
 
 	device, err := ws2811.MakeWS2811(&ledOptions)

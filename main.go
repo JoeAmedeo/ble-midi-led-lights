@@ -71,7 +71,6 @@ func main() {
 	}
 
 	ledOptions := ws2811.DefaultOptions
-	ledOptions.Channels[0].Brightness = 90
 	ledOptions.Channels[0].LedCount = 4
 
 	device, err := ws2811.MakeWS2811(&ledOptions)
@@ -90,7 +89,10 @@ func main() {
 
 	myReader := reader.New(
 		reader.NoteOn(func(p *reader.Position, channel, key, velocity uint8) {
-			setAllLeds(device)
+			err := setAllLeds(device)
+			if err != nil {
+				log.Printf("error rendering lights: %s", err)
+			}
 		}),
 	)
 

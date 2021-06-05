@@ -27,16 +27,16 @@ func randomUInt32(min, max uint32) uint32 {
 func setAllLeds(device *ws2811.WS2811, on bool) error {
 	onColor := uint32(0xffffff)
 	offColor := uint32(0x000000)
+	var currentColor uint32
+	log.Printf("current on status: %t", on)
+	if on {
+		currentColor = onColor
+	} else {
+		currentColor = offColor
+	}
 	log.Printf("color values: %d, %d", onColor, offColor)
 	for i := 0; i < len(device.Leds(0)); i++ {
 		log.Printf("current led: %d", i)
-		var currentColor uint32
-		if on {
-			currentColor = onColor
-		} else {
-			currentColor = offColor
-		}
-		log.Printf("current on status: %t", on)
 		device.Leds(0)[i] = currentColor
 		log.Printf("current led value: %d", device.Leds(0)[i])
 	}
@@ -90,8 +90,8 @@ func main() {
 
 	myReader := reader.New(
 		reader.NoteOn(func(p *reader.Position, channel, key, velocity uint8) {
-			err := setAllLeds(device, on)
 			on = !on
+			err := setAllLeds(device, on)
 			if err != nil {
 				log.Printf("error rendering lights: %s", err)
 			}

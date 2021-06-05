@@ -3,7 +3,6 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"os"
 	"os/signal"
 	"sync"
@@ -16,16 +15,9 @@ import (
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 )
 
-func randomUInt32(min, max uint32) uint32 {
-	var a = rand.Uint32()
-	a %= (max - min)
-	a += min
-	return a
-}
-
 // for now, set all LEDs to a random color
 func setAllLeds(device *ws2811.WS2811, on bool) error {
-	onColor := uint32(0xffffff)
+	onColor := uint32(0x32a852)
 	offColor := uint32(0x000000)
 	var currentColor uint32
 	log.Printf("current on status: %t", on)

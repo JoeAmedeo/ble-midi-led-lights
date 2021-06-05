@@ -23,20 +23,22 @@ func randomUInt32(min, max uint32) uint32 {
 	return a
 }
 
-// stolen from this example: https://github.com/rpi-ws281x/rpi-ws281x-go/blob/master/examples/invader8x8/invader8x8.go
-func rgbToColor(r uint32, g uint32, b uint32) uint32 {
-	return ((r>>8)&0xff)<<16 + ((g>>8)&0xff)<<8 + ((b >> 8) & 0xff)
-}
-
 // for now, set all LEDs to a random color
 func setAllLeds(device *ws2811.WS2811) error {
-	randomRed := randomUInt32(0, 256)
-	randomGreen := randomUInt32(0, 256)
-	randomBlue := randomUInt32(0, 256)
-	log.Printf("rgb values: %d, %d, %d", randomRed, randomGreen, randomBlue)
+	onColor := uint32(0xffffff)
+	offColor := uint32(0xffffff)
+	on := false
+	log.Printf("color values: %d, %d", onColor, offColor)
 	for i := 0; i < len(device.Leds(0)); i++ {
 		log.Printf("current led: %d", i)
-		device.Leds(0)[i] = rgbToColor(randomRed, randomGreen, randomBlue)
+		on = !on
+		var currentColor uint32
+		if on {
+			currentColor = onColor
+		} else {
+			currentColor = offColor
+		}
+		device.Leds(0)[i] = currentColor
 		log.Printf("current led value: %d", device.Leds(0)[i])
 	}
 	return device.Render()

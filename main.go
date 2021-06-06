@@ -64,6 +64,7 @@ func main() {
 	ledOptions := ws2811.DefaultOptions
 	ledOptions.Channels[0].Brightness = 45
 	ledOptions.Channels[0].LedCount = 4
+	ledOptions.Channels[0].StripeType = ws2811.WS2811StripRGB
 
 	device, err := ws2811.MakeWS2811(&ledOptions)
 

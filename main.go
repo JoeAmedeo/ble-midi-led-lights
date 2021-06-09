@@ -18,7 +18,7 @@ import (
 
 // for now, set all LEDs to a random color
 func setAllLeds(device *ws2811.WS2811) error {
-	currentColor := uint32(0xffffff)
+	currentColor := uint32(0xff0000)
 	for i := 0; i < len(device.Leds(0)); i++ {
 		log.Printf("current led: %d", i)
 		device.Leds(0)[i] = currentColor

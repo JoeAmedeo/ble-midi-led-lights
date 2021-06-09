@@ -16,6 +16,20 @@ import (
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 )
 
+func RGBtoInt(r, g, b uint32) uint32 {
+	rgb := r
+	rgb = (rgb << 8) + g
+	rgb = (rgb << 8) + b
+	return rgb
+}
+
+func InttoRGB(rgb uint32) (uint32, uint32, uint32) {
+	red := (rgb >> 16) & 0xFF
+	green := (rgb >> 8) & 0xFF
+	blue := rgb & 0xFF
+	return red, green, blue
+}
+
 // for now, set all LEDs to a random color
 func setAllLeds(device *ws2811.WS2811) error {
 	currentColor := uint32(0xff0000)

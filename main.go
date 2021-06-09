@@ -16,10 +16,11 @@ import (
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 )
 
-func RGBtoInt(r, g, b uint32) uint32 {
-	rgb := r
-	rgb = (rgb << 8) + g
-	rgb = (rgb << 8) + b
+// below two functions are taken from java implementation here: https://stackoverflow.com/questions/4801366/convert-rgb-values-to-integer
+func RGBtoInt(red, green, blue uint32) uint32 {
+	rgb := red
+	rgb = (rgb << 8) + green
+	rgb = (rgb << 8) + blue
 	return rgb
 }
 
@@ -110,7 +111,7 @@ func main() {
 			if err != nil {
 				log.Errorf(`failed to dim lights: %s`, err)
 			}
-			time.Sleep(time.Millisecond * 16)
+			time.Sleep(time.Millisecond * 500)
 		}
 	}()
 

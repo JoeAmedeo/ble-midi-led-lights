@@ -16,17 +16,8 @@ import (
 )
 
 // for now, set all LEDs to a random color
-func setAllLeds(device *ws2811.WS2811, on bool) error {
-	onColor := uint32(0x32a852)
-	offColor := uint32(0x000000)
-	var currentColor uint32
-	log.Printf("current on status: %t", on)
-	if on {
-		currentColor = onColor
-	} else {
-		currentColor = offColor
-	}
-	log.Printf("color values: %d, %d", onColor, offColor)
+func setAllLeds(device *ws2811.WS2811) error {
+	currentColor := uint32(0xffffff)
 	for i := 0; i < len(device.Leds(0)); i++ {
 		log.Printf("current led: %d", i)
 		device.Leds(0)[i] = currentColor
@@ -78,12 +69,9 @@ func main() {
 
 	defer device.Fini()
 
-	on := false
-
 	myReader := reader.New(
 		reader.NoteOn(func(p *reader.Position, channel, key, velocity uint8) {
-			on = !on
-			err := setAllLeds(device, on)
+			err := setAllLeds(device)
 			if err != nil {
 				log.Printf("error rendering lights: %s", err)
 			}
@@ -97,6 +85,18 @@ func main() {
 	}
 
 	log.Println("Midi listener added without errors!")
+
+	go func() {
+		for {
+			for i := 0; i < len(device.Leds(0)); i++ {
+				device.Leds(0)[i] = device.Leds(0)[i] / 2
+			}
+			err := device.Render()
+			if err != nil {
+				log.Errorf(`failed to dim lights: %s`, err)
+			}
+		}
+	}()
 
 	sig := make(chan os.Signal, 1)
 

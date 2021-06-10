@@ -7,7 +7,6 @@ import (
 	"os/signal"
 	"sync"
 	"syscall"
-	"time"
 
 	log "github.com/sirupsen/logrus"
 	"gitlab.com/gomidi/midi/reader"
@@ -121,7 +120,10 @@ func main() {
 			if err != nil {
 				log.Errorf(`failed to dim lights: %s`, err)
 			}
-			time.Sleep(time.Millisecond * 500)
+			err = device.Wait()
+			if err != nil {
+				log.Errorf(`failed to wait for render lights: %s`, err)
+			}
 		}
 	}()
 

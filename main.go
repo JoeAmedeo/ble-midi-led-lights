@@ -108,7 +108,7 @@ func main() {
 
 	log.Println("Midi listener added without errors!")
 
-	fadeConstant := 0.75
+	fadeConstant := 0.95
 
 	go func() {
 		for {

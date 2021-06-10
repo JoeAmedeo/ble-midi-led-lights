@@ -106,13 +106,13 @@ func main() {
 		for {
 			for i := 0; i < len(device.Leds(0)); i++ {
 				red, green, blue := InttoRGB(device.Leds(0)[i])
-				device.Leds(0)[i] = RGBtoInt(red/2, green/2, blue/2)
+				device.Leds(0)[i] = RGBtoInt(red*(9/10), green*(9/10), blue*(9/10))
 			}
 			err := device.Render()
 			if err != nil {
 				log.Errorf(`failed to dim lights: %s`, err)
 			}
-			time.Sleep(time.Millisecond * 500)
+			time.Sleep(time.Millisecond * 16)
 		}
 	}()
 

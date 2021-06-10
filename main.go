@@ -121,7 +121,7 @@ func main() {
 			if err != nil {
 				log.Errorf(`failed to dim lights: %s`, err)
 			}
-			time.Sleep(time.Millisecond * 16)
+			time.Sleep(time.Millisecond * 500)
 		}
 	}()
 

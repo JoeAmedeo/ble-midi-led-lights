@@ -106,7 +106,7 @@ func main() {
 		for {
 			for i := 0; i < len(device.Leds(0)); i++ {
 				red, green, blue := InttoRGB(device.Leds(0)[i])
-				device.Leds(0)[i] = RGBtoInt(red*(9/10), green*(9/10), blue*(9/10))
+				device.Leds(0)[i] = RGBtoInt(red*(99/100), green*(99/100), blue*(99/100))
 			}
 			err := device.Render()
 			if err != nil {

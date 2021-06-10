@@ -43,7 +43,7 @@ func setAllLeds(device *ws2811.WS2811) error {
 
 func fade(color uint32, factor uint32) uint32 {
 	if color <= factor {
-		return color
+		return 0
 	}
 	return color - factor
 }

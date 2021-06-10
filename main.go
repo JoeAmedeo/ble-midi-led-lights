@@ -33,7 +33,7 @@ func InttoRGB(rgb uint32) (uint32, uint32, uint32) {
 
 // for now, set all LEDs to a random color
 func setAllLeds(device *ws2811.WS2811) error {
-	currentColor := uint32(0xff0000)
+	currentColor := RGBtoInt(255, 0, 0)
 	for i := 0; i < len(device.Leds(0)); i++ {
 		log.Printf("current led: %d", i)
 		device.Leds(0)[i] = currentColor
@@ -105,7 +105,8 @@ func main() {
 	go func() {
 		for {
 			for i := 0; i < len(device.Leds(0)); i++ {
-				device.Leds(0)[i] = device.Leds(0)[i] / 2
+				red, green, blue := InttoRGB(device.Leds(0)[i])
+				device.Leds(0)[i] = RGBtoInt(red/2, green/2, blue/2)
 			}
 			err := device.Render()
 			if err != nil {

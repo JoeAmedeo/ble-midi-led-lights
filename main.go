@@ -42,6 +42,13 @@ func setAllLeds(device *ws2811.WS2811) error {
 	return device.Render()
 }
 
+func fade(color uint32, factor float64) uint32 {
+	if color == 0 {
+		return color
+	}
+	return uint32(float64(color)*factor) - 1
+}
+
 func main() {
 
 	myDriver, err := driver.New()
@@ -102,11 +109,13 @@ func main() {
 
 	log.Println("Midi listener added without errors!")
 
+	fadeConstant := 0.95
+
 	go func() {
 		for {
 			for i := 0; i < len(device.Leds(0)); i++ {
 				red, green, blue := InttoRGB(device.Leds(0)[i])
-				device.Leds(0)[i] = RGBtoInt(red*(99/100), green*(99/100), blue*(99/100))
+				device.Leds(0)[i] = RGBtoInt(fade(red, fadeConstant), fade(green, fadeConstant), fade(blue, fadeConstant))
 			}
 			err := device.Render()
 			if err != nil {

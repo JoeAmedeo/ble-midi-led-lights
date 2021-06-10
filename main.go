@@ -108,19 +108,19 @@ func main() {
 
 	log.Println("Midi listener added without errors!")
 
-	fadeConstant := 0.85
+	fadeConstant := 0.99
 
 	go func() {
 		for {
 			for i := 0; i < len(device.Leds(0)); i++ {
 				red, green, blue := InttoRGB(device.Leds(0)[i])
-				if i == 0 {
+				if i == 0 && red != 0 && green != 0 && blue != 0 {
 					log.Infof("current RGB values: r -> %d, g -> %d, b -> %d", red, green, blue)
 				}
 				fadedRed := fade(red, fadeConstant)
 				fadedGreen := fade(green, fadeConstant)
 				fadedBlue := fade(blue, fadeConstant)
-				if i == 0 {
+				if i == 0 && red != 0 && green != 0 && blue != 0 {
 					log.Infof("faded RGB values: r -> %d, g -> %d, b -> %d", fadedRed, fadedGreen, fadedBlue)
 				}
 				device.Leds(0)[i] = RGBtoInt(fadedRed, fadedGreen, fadedBlue)

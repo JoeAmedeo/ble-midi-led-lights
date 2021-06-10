@@ -114,6 +114,7 @@ func main() {
 		for {
 			for i := 0; i < len(device.Leds(0)); i++ {
 				red, green, blue := InttoRGB(device.Leds(0)[i])
+				log.Infof("current RGB values: r -> %s, g -> %s, b -> %s", red, green, blue)
 				device.Leds(0)[i] = RGBtoInt(fade(red, fadeConstant), fade(green, fadeConstant), fade(blue, fadeConstant))
 			}
 			err := device.Render()

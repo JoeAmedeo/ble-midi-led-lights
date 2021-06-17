@@ -2,6 +2,7 @@
 package main
 
 import (
+	midi "ble-midi-drums/midi"
 	"fmt"
 	"os"
 	"os/signal"
@@ -31,8 +32,8 @@ func InttoRGB(rgb uint32) (uint32, uint32, uint32) {
 }
 
 // for now, set all LEDs to a random color
-func setAllLeds(device *ws2811.WS2811, key uint8, weight uint32) error {
-
+func setAllLeds(device *ws2811.WS2811, key uint8, weight uint8) error {
+	red, green, blue, ledsRange := midi.getColorFromNote(key, weight)
 	currentColor := RGBtoInt(weight, 0, 0)
 	for i := 0; i < len(device.Leds(0)); i++ {
 		log.Printf("current led: %d", i)
@@ -76,7 +77,7 @@ func main() {
 	}
 
 	ledOptions := ws2811.DefaultOptions
-	ledOptions.Channels[0].LedCount = 4
+	ledOptions.Channels[0].LedCount = midi.TOTAL_LEDS
 	ledOptions.Channels[0].Brightness = 255
 
 	device, err := ws2811.MakeWS2811(&ledOptions)

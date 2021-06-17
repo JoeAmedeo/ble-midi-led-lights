@@ -1,5 +1,10 @@
 package midi
 
+type LedRange struct {
+	Start int
+	End   int
+}
+
 // constants for default midi values from the TD-17 module: https://rolandus.zendesk.com/hc/en-us/articles/360005173411-TD-17-Default-Factory-MIDI-Note-Map
 const (
 	KICK                int = 36
@@ -27,3 +32,10 @@ const (
 	AUX_HEAD            int = 27
 	AUX_RIM             int = 28
 )
+
+const TOTAL_LEDS = 149
+
+var SNARE_LEDS = LedRange{0, 43}
+var TOM1_LEDS = LedRange{44, 78}
+var TOM2_LEDS = LedRange{79, 113}
+var TOM3_LEDS = LedRange{114, 148}

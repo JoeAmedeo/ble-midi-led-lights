@@ -1,6 +1,6 @@
 package midi
 
-func getColorFromNote(key uint8, velocity uint8) (uint32, uint32, uint32, LedRange) {
+func GetColorFromNote(key uint8, velocity uint8) (uint32, uint32, uint32, LedRange) {
 	switch key {
 	case KICK:
 		return 0, 0, uint32(velocity), ALL_LEDS

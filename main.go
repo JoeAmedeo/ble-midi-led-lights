@@ -33,7 +33,7 @@ func InttoRGB(rgb uint32) (uint32, uint32, uint32) {
 
 // for now, set all LEDs to a random color
 func setAllLeds(device *ws2811.WS2811, key uint8, weight uint8) error {
-	red, green, blue, ledsRange := midi.getColorFromNote(key, weight)
+	red, green, blue, ledsRange := midi.GetColorFromNote(key, weight)
 	currentColor := RGBtoInt(red, green, blue)
 	for i := ledsRange.Start; i <= ledsRange.End; i++ {
 		log.Printf("current led: %d", i)
@@ -96,7 +96,7 @@ func main() {
 
 	myReader := reader.New(
 		reader.NoteOn(func(p *reader.Position, channel, key, velocity uint8) {
-			err := setAllLeds(device, key, uint32(velocity))
+			err := setAllLeds(device, key, velocity)
 			if err != nil {
 				log.Printf("error rendering lights: %s", err)
 			}

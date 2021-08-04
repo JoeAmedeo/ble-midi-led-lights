@@ -33,10 +33,10 @@ const (
 	AUX_RIM             uint8 = 28
 )
 
-const TOTAL_LEDS = 149
+const TOTAL_LEDS = 155
 
-var SNARE_LEDS = LedRange{0, 43}
-var TOM_1_LEDS = LedRange{44, 78}
-var TOM_2_LEDS = LedRange{79, 113}
-var TOM_3_LEDS = LedRange{114, 148}
-var ALL_LEDS = LedRange{0, 148}
+var SNARE_LEDS = LedRange{0, 52}
+var TOM_1_LEDS = LedRange{53, 86}
+var TOM_2_LEDS = LedRange{87, 120}
+var TOM_3_LEDS = LedRange{121, 154}
+var ALL_LEDS = LedRange{0, 154}

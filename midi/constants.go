@@ -5,7 +5,7 @@ type LedRange struct {
 	End   int
 }
 
-type KeyMap struct {
+type KeyColor struct {
 	Red   uint32
 	Green uint32
 	Blue  uint32
@@ -47,3 +47,4 @@ var TOM_1_LEDS = LedRange{53, 86}
 var TOM_2_LEDS = LedRange{87, 120}
 var TOM_3_LEDS = LedRange{121, 154}
 var ALL_LEDS = LedRange{0, 154}
+var NO_LEDS = LedRange{155, 155}

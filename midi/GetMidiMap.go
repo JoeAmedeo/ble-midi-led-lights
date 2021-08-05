@@ -1,7 +1,7 @@
 package midi
 
-func GetMidiMap() map[uint8]KeyMap {
-	return map[uint8]KeyMap{
+func GetMidiMap() map[uint8]KeyColor {
+	return map[uint8]KeyColor{
 		KICK:                {0, 0, 1, ALL_LEDS},
 		SNARE_HEAD:          {1, 0, 0, SNARE_LEDS},
 		SNARE_RIM:           {1, 0, 0, SNARE_LEDS},

@@ -35,7 +35,6 @@ func InttoRGB(rgb uint32) (uint32, uint32, uint32) {
 func setAllLeds(device *ws2811.WS2811, key uint8, weight uint8) error {
 	keyColor := midi.GetColorFromNote(key, weight)
 	currentColor := RGBtoInt(keyColor.Red, keyColor.Green, keyColor.Blue)
-	device.Wait()
 	for i := keyColor.Range.Start; i <= keyColor.Range.End; i++ {
 		log.Printf("current led: %d", i)
 		device.Leds(0)[i] = currentColor

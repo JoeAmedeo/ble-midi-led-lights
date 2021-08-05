@@ -1,4 +1,4 @@
-package midi
+package midiled
 
 func GetMidiMap() map[uint8]KeyColor {
 	return map[uint8]KeyColor{

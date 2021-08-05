@@ -1,4 +1,4 @@
-package midi
+package midiled
 
 func GetColorFromNote(key uint8, velocity uint8) KeyColor {
 

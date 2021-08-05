@@ -1,4 +1,4 @@
-package midi
+package midiled
 
 type LedRange struct {
 	Start int

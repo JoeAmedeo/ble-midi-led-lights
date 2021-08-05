@@ -2,7 +2,7 @@
 package main
 
 import (
-	midi "ble-midi-drums/midi"
+	midiled "ble-midi-drums/midiled"
 	"fmt"
 	"os"
 	"os/signal"
@@ -16,28 +16,13 @@ import (
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 )
 
-// below two functions are taken from java implementation here: https://stackoverflow.com/questions/4801366/convert-rgb-values-to-integer
-func RGBtoInt(red, green, blue uint32) uint32 {
-	rgb := red
-	rgb = (rgb << 8) + green
-	rgb = (rgb << 8) + blue
-	return rgb
-}
-
-func InttoRGB(rgb uint32) (uint32, uint32, uint32) {
-	red := (rgb >> 16) & 0xFF
-	green := (rgb >> 8) & 0xFF
-	blue := rgb & 0xFF
-	return red, green, blue
-}
-
 // for now, set all LEDs to a random color
 func setAllLeds(device *ws2811.WS2811, key uint8, weight uint8) error {
-	keyColor := midi.GetColorFromNote(key, weight)
-	currentColor := RGBtoInt(keyColor.Red, keyColor.Green, keyColor.Blue)
+	keyColor := midiled.GetColorFromNote(key, weight)
+	keyColorInt := midiled.RGBToInt(keyColor.Red, keyColor.Green, keyColor.Blue)
 	for i := keyColor.Range.Start; i <= keyColor.Range.End; i++ {
 		log.Printf("current led: %d", i)
-		device.Leds(0)[i] = currentColor
+		device.Leds(0)[i] = midiled.BlendColors(keyColorInt, device.Leds(0)[i])
 		log.Printf("current led value: %d", device.Leds(0)[i])
 	}
 	return device.Render()
@@ -77,7 +62,7 @@ func main() {
 	}
 
 	ledOptions := ws2811.DefaultOptions
-	ledOptions.Channels[0].LedCount = midi.TOTAL_LEDS
+	ledOptions.Channels[0].LedCount = midiled.TOTAL_LEDS
 	ledOptions.Channels[0].Brightness = 255
 
 	device, err := ws2811.MakeWS2811(&ledOptions)
@@ -114,7 +99,7 @@ func main() {
 	go func() {
 		for {
 			for i := 0; i < len(device.Leds(0)); i++ {
-				red, green, blue := InttoRGB(device.Leds(0)[i])
+				red, green, blue := midiled.IntToRGB(device.Leds(0)[i])
 				if i == 0 && (red != 0 || green != 0 || blue != 0) {
 					log.Infof("current RGB values: r -> %d, g -> %d, b -> %d", red, green, blue)
 				}
@@ -124,7 +109,7 @@ func main() {
 				if i == 0 && (red != 0 || green != 0 || blue != 0) {
 					log.Infof("faded RGB values: r -> %d, g -> %d, b -> %d", fadedRed, fadedGreen, fadedBlue)
 				}
-				device.Leds(0)[i] = RGBtoInt(fadedRed, fadedGreen, fadedBlue)
+				device.Leds(0)[i] = midiled.RGBToInt(fadedRed, fadedGreen, fadedBlue)
 			}
 			err := device.Render()
 			if err != nil {

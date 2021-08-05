@@ -5,6 +5,13 @@ type LedRange struct {
 	End   int
 }
 
+type KeyMap struct {
+	Red   uint32
+	Green uint32
+	Blue  uint32
+	Range LedRange
+}
+
 // constants for default midi values from the TD-17 module: https://rolandus.zendesk.com/hc/en-us/articles/360005173411-TD-17-Default-Factory-MIDI-Note-Map
 const (
 	KICK                uint8 = 36

@@ -5,7 +5,7 @@ import (
 )
 
 func BlendColors(input uint32, current uint32) uint32 {
-	log.Printf("current led value: %d", current)
+	log.Printf("input led value: %d", current)
 	inputRed, inputGreen, inputBlue := IntToRGB(input)
 	currentRed, currentGreen, currentBlue := IntToRGB(current)
 	log.Printf("current red led value: %d", currentRed)

@@ -22,8 +22,9 @@ func setAllLeds(device *ws2811.WS2811, key uint8, weight uint8) error {
 	keyColorInt := midiled.RGBToInt(keyColor.Red, keyColor.Green, keyColor.Blue)
 	for i := keyColor.Range.Start; i <= keyColor.Range.End; i++ {
 		log.Printf("current led: %d", i)
+		log.Printf("before led value: %d", device.Leds(0)[i])
 		device.Leds(0)[i] = midiled.BlendColors(keyColorInt, device.Leds(0)[i])
-		log.Printf("current led value: %d", device.Leds(0)[i])
+		log.Printf("after led value: %d", device.Leds(0)[i])
 
 	}
 	return device.Render()

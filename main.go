@@ -102,13 +102,13 @@ func main() {
 			for i := 0; i < len(device.Leds(0)); i++ {
 				red, green, blue := midiled.IntToRGB(device.Leds(0)[i])
 				if i == 0 && (red != 0 || green != 0 || blue != 0) {
-					log.Infof("current RGB values: r -> %d, g -> %d, b -> %d", red, green, blue)
+					//log.Infof("current RGB values: r -> %d, g -> %d, b -> %d", red, green, blue)
 				}
 				fadedRed := fade(red, 1)
 				fadedGreen := fade(green, 1)
 				fadedBlue := fade(blue, 1)
 				if i == 0 && (red != 0 || green != 0 || blue != 0) {
-					log.Infof("faded RGB values: r -> %d, g -> %d, b -> %d", fadedRed, fadedGreen, fadedBlue)
+					//log.Infof("faded RGB values: r -> %d, g -> %d, b -> %d", fadedRed, fadedGreen, fadedBlue)
 				}
 				device.Leds(0)[i] = midiled.RGBToInt(fadedRed, fadedGreen, fadedBlue)
 			}

@@ -24,6 +24,7 @@ func setAllLeds(device *ws2811.WS2811, key uint8, weight uint8) error {
 		log.Printf("current led: %d", i)
 		device.Leds(0)[i] = midiled.BlendColors(keyColorInt, device.Leds(0)[i])
 		log.Printf("current led value: %d", device.Leds(0)[i])
+
 	}
 	return device.Render()
 }

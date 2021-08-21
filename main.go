@@ -100,10 +100,9 @@ func main() {
 
 	go func() {
 		for {
-			log.Infof("Length of LED strip: %d", len(device.Leds(0)))
 			for i := 0; i < len(device.Leds(0)); i++ {
 				red, green, blue := midiled.IntToRGB(device.Leds(0)[i])
-				if i == 0 && (red != 0 || green != 0 || blue != 0) {
+				if (i == 0 || i == 53 || i == 87 || i == 121) && (red != 0 || green != 0 || blue != 0) {
 					log.Infof("current RGB values: r -> %d, g -> %d, b -> %d", red, green, blue)
 				}
 				fadedRed := fade(red, 1)

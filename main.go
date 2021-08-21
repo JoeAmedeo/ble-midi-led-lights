@@ -100,6 +100,7 @@ func main() {
 
 	go func() {
 		for {
+			log.Infof("Length of LED strip: %d", len(device.Leds(0)))
 			for i := 0; i < len(device.Leds(0)); i++ {
 				red, green, blue := midiled.IntToRGB(device.Leds(0)[i])
 				if i == 0 && (red != 0 || green != 0 || blue != 0) {
